@@ -25,10 +25,13 @@ HRESULT Init(HWND hWnd, UINT width, UINT height)
 	// DirectX初期化
 	hr = InitDirectX(hWnd, width, height, false);
 	if (FAILED(hr)) { return hr; }
+	// モデル読み込み
+	ModelCache::Init();
+	ModelLoad();
+	// シーン作成 
 	// フェード作成 
 	g_pFade = new FadeBlack();
 	g_pFade->SetFade(1.0f, true);
-	// シーン作成 
 	g_pScene = new SceneTitle();
 	g_pScene->SetFade(g_pFade); // シーンに使用するフェードを設定
 	// 他機能初期化
@@ -37,11 +40,7 @@ HRESULT Init(HWND hWnd, UINT width, UINT height)
 	InitInput();
 	ShaderList::Init();
 	Score::Init();
-	ModelCache::Init();
 	
-	// シーン作成
-	ModelLoad();
-//	g_pGame = new SceneGame();
 
 	return hr;
 }

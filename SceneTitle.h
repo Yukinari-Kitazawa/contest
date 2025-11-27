@@ -3,6 +3,9 @@
 #include "Texture.h"
 #include"Sprite.h"
 #include"Sound.h"
+#include"Camera.h"
+#include"SkyDome.h"
+#include"TrashObject.h"
 class SceneTitle :public Scene
 {
 public:
@@ -23,5 +26,7 @@ private:
 	IXAudio2SourceVoice* m_pspeaker2;
 	XAUDIO2_BUFFER* m_pBgm;
 	XAUDIO2_BUFFER* m_pSe;
+	Camera* m_pTitleCamera;
+	SkyDome* m_pSkyDome;
 };
 

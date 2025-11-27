@@ -154,6 +154,7 @@
     <ClCompile Include="CameraDebug.cpp" />
     <ClCompile Include="CameraMinimap.cpp" />
     <ClCompile Include="CameraResult.cpp" />
+    <ClCompile Include="CameraTitle.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="EffectM.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TitleTrashObject.cpp" />
     <ClCompile Include="TrashObject.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="_geometory.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="CameraDebug.h" />
     <ClInclude Include="CameraMinimap.h" />
     <ClInclude Include="CameraResult.h" />
+    <ClInclude Include="CameraTitle.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DirectX.h" />
@@ -229,6 +232,7 @@
     <ClInclude Include="StageObjectManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TitleTrashObject.h" />
     <ClInclude Include="TrashObject.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
