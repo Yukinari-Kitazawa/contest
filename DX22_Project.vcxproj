@@ -185,6 +185,7 @@
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TitlePlayer.cpp" />
     <ClCompile Include="TitleTrashObject.cpp" />
     <ClCompile Include="TrashObject.cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="StageObjectManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TitlePlayer.h" />
     <ClInclude Include="TitleTrashObject.h" />
     <ClInclude Include="TrashObject.h" />
     <ClInclude Include="Wall.h" />

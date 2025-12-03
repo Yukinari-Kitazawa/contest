@@ -15,6 +15,19 @@ m_pspeaker(nullptr), m_pspeaker2(nullptr)
 	m_pTitleCamera = new CameraTitle();
 	m_pSkyDome = new SkyDome();
 	m_pSkyDome->SetCamera(m_pTitleCamera);
+	m_pTitlePlayer = new TitlePlayer({ 1.0f,0.0f,10.0f });
+	m_pTitlePlayer->SetCamera(m_pTitleCamera);
+	m_pTitlePlayer->SetRotateY(180.0f);
+	for(int i=0;i<5;i++){
+		DirectX::XMFLOAT3 pos = { (float)(rand() % 20 - 1), (float)(rand() % 20 +5),10.0f };
+		TitleTrashObject* pTitleTrashObject = new TitleTrashObject(pos);
+		m_TitleTrashObjectList.push_back(pTitleTrashObject);
+	}
+	//カメラのセット
+	for(auto& obj : m_TitleTrashObjectList) {
+		obj->SetCamera(m_pTitleCamera);
+	}
+
 
 	// サウンド読み込み
 	m_pBgm = LoadSound("Assets/sound/TitleBgm.mp3",true);
@@ -54,7 +67,16 @@ SceneTitle::~SceneTitle()
 		delete m_pSkyDome;
 		m_pSkyDome = nullptr;
 	}
+	if (m_pTitlePlayer)
+	{
+		delete m_pTitlePlayer;
+		m_pTitlePlayer = nullptr;
+	}
 	m_pspeaker->Stop(0);
+	for(auto& obj : m_TitleTrashObjectList) {
+		delete obj;
+	}
+	m_TitleTrashObjectList.clear();
 }
 
 void SceneTitle::Update()
@@ -66,11 +88,19 @@ void SceneTitle::Update()
 	}
 	m_pTitleCamera->Update();
 	m_pSkyDome->Update();
+	for (auto& obj : m_TitleTrashObjectList) {
+		obj->Update();
+	}
+	m_pTitlePlayer->Update();
 }
 
 void SceneTitle::Draw()
 {
 	m_pSkyDome->Draw();
+	for (auto& obj : m_TitleTrashObjectList) {
+		obj->Draw();
+	}
+	m_pTitlePlayer->Draw();
 	DirectX::XMFLOAT4X4 world;
 	DirectX::XMMATRIX T =
 		DirectX::XMMatrixTranslation(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0.0f);

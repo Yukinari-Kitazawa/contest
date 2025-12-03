@@ -14,6 +14,7 @@ public:
 	void SetDeletePrepareFlag(bool Inflag) { m_bDeletePrepareFlag = Inflag; }
 	bool GetDeleteFlag() { return m_bDeleteFlag; }
 	bool GetDeletePrepareFlag() { return m_bDeletePrepareFlag; }
+
 private:
 	Model* m_pModel;
 	CameraDebug* m_pCamera;

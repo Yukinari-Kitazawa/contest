@@ -14,6 +14,7 @@ public:
 	Collision::Box GetCollision() {
 		return m_box;
 	}
+	void SetRotateY(float InRotate) { m_Rotation.y = InRotate; }
 protected:
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_Rotation;

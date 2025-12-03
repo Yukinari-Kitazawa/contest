@@ -5,7 +5,9 @@
 #include"Sound.h"
 #include"Camera.h"
 #include"SkyDome.h"
-#include"TrashObject.h"
+#include"TitleTrashObject.h"
+#include"TitlePlayer.h"
+#include"vector"
 class SceneTitle :public Scene
 {
 public:
@@ -28,5 +30,7 @@ private:
 	XAUDIO2_BUFFER* m_pSe;
 	Camera* m_pTitleCamera;
 	SkyDome* m_pSkyDome;
+	std::vector<TitleTrashObject*> m_TitleTrashObjectList;
+	TitlePlayer* m_pTitlePlayer;
 };
 
