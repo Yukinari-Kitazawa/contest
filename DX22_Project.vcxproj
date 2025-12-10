@@ -170,6 +170,7 @@
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelCache.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneGame.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="TitleTrashObject.cpp" />
     <ClCompile Include="TrashObject.cpp" />
     <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WorldtoScreen.cpp" />
     <ClCompile Include="_geometory.cpp" />
     <ClCompile Include="_model.cpp" />
   </ItemGroup>
@@ -219,6 +221,7 @@
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelCache.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneGame.h" />
@@ -237,6 +240,7 @@
     <ClInclude Include="TitleTrashObject.h" />
     <ClInclude Include="TrashObject.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="WorldtoScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

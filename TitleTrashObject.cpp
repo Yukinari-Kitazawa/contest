@@ -80,15 +80,15 @@ void TitleTrashObject::Move()
 {
 	m_PrevPos = m_pos;
 
-	m_pos.x += m_Velocity.x*0.01f;
-	m_pos.y += m_Velocity.y*0.01f;
+	m_pos.x += m_Velocity.x*0.005f;
+	m_pos.y += m_Velocity.y*0.005f;
 	
 	// 壁との反射
 	const float minX = -15.0f + m_radius;
 	const float maxX = 15.0f - m_radius;
 	const float minY = -8.0f + m_radius;
 	const float maxY = 8.5f - m_radius;
-	const float restitution = 0.9f;  // 反発係数（1.0f だと減速しない）
+	const float restitution = 1.0f;  // 反発係数（1.0f だと減速しない）
 
 	// 左右
 	if (m_pos.x < minX) {
@@ -111,7 +111,7 @@ void TitleTrashObject::Move()
 	}
 }
 
-void TitleTrashObject::ResolveCollision(TitleTrashObject& a, TitleTrashObject& b, float E)
+bool TitleTrashObject::ResolveCollision(TitleTrashObject& a, TitleTrashObject& b, float E)
 {
 	// ここでは X-Y 平面上の円同士として扱う（Z は無視）
 	float dx = b.m_pos.x - a.m_pos.x;
@@ -121,8 +121,8 @@ void TitleTrashObject::ResolveCollision(TitleTrashObject& a, TitleTrashObject& b
 	float minDist = a.m_radius + b.m_radius;
 
 	// 離れているなら何もしない
-	if (dist2 == 0.0f) return;
-	if (dist2 > minDist * minDist) return;
+	if (dist2 == 0.0f) return false;
+	if (dist2 > minDist * minDist) return false;
 
 	float dist = std::sqrt(dist2);
 
@@ -136,7 +136,7 @@ void TitleTrashObject::ResolveCollision(TitleTrashObject& a, TitleTrashObject& b
 
 	// すでに離れていっているならスキップ（なくても動くけど安定性UP）
 	if (v1 - v2 < 0.0f) {
-		return;
+		return false;
 	}
 
 	// 接線方向成分（そのまま残す）
@@ -169,4 +169,5 @@ void TitleTrashObject::ResolveCollision(TitleTrashObject& a, TitleTrashObject& b
 		b.m_pos.x += nx * overlap * 0.5f;
 		b.m_pos.y += ny * overlap * 0.5f;
 	}
+	return true;
 }

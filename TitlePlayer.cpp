@@ -8,7 +8,8 @@
 TitlePlayer::TitlePlayer(DirectX::XMFLOAT3 InitPos) : TitleTrashObject(InitPos)
 {
 	
-	m_pModel = ModelCache::GetInstance()->GetCache("Player");
+	m_pModel = ModelCache::GetInstance()->GetCache("TitlePlayer");
+	
 }
 
 TitlePlayer::~TitlePlayer()

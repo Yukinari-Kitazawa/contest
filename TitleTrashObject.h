@@ -11,7 +11,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Move();
-	void ResolveCollision(TitleTrashObject& a, TitleTrashObject& b, float restitution = 0.9f);
+	bool ResolveCollision(TitleTrashObject& a, TitleTrashObject& b, float restitution = 0.9f);
 	void SetCamera(Camera* InCamera) { m_pCamera = static_cast<CameraTitle*>(InCamera); }
 protected:
 	Model* m_pModel;

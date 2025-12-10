@@ -159,6 +159,7 @@ void Draw()
 void ModelLoad()
 {
 	ModelCache::GetInstance()->GetCache("Player")->Load("Assets/model/a.fbx",0.015f);
+	ModelCache::GetInstance()->GetCache("TitlePlayer")->Load("Assets/model/a.fbx",0.013f);
 	ModelCache::GetInstance()->GetCache("PlayerEquip")->Load("Assets/model/–³‘è.fbx",1.5f);
 	ModelCache::GetInstance()->GetCache("PlayerEquip")->AddAnimation("Assets/model/–³‘è.fbx");
 	ModelCache::GetInstance()->GetCache("Cloud")->Load("Assets/model/cloud.fbx",0.2f);

@@ -4,6 +4,8 @@
 #include"CameraTitle.h"
 #include"Score.h"
 #include"Sound.h"
+#include"WorldtoScreen.h"
+#include<time.h>
 
 SceneTitle::SceneTitle() : m_pLogo(nullptr), m_pTitle(nullptr), m_pEnter(nullptr),
 m_pTitleCamera(nullptr), m_pSkyDome(nullptr), m_pBgm(nullptr), m_pSe(nullptr),
@@ -15,7 +17,8 @@ m_pspeaker(nullptr), m_pspeaker2(nullptr)
 	m_pTitleCamera = new CameraTitle();
 	m_pSkyDome = new SkyDome();
 	m_pSkyDome->SetCamera(m_pTitleCamera);
-	m_pTitlePlayer = new TitlePlayer({ 1.0f,0.0f,10.0f });
+	srand((unsigned int)time(NULL));
+	m_pTitlePlayer = new TitlePlayer({ (float)(rand() % 20 - 1), (float)(rand() % 20 + 5),10.0f });
 	m_pTitlePlayer->SetCamera(m_pTitleCamera);
 	m_pTitlePlayer->SetRotateY(180.0f);
 	for(int i=0;i<5;i++){
@@ -32,6 +35,7 @@ m_pspeaker(nullptr), m_pspeaker2(nullptr)
 	// サウンド読み込み
 	m_pBgm = LoadSound("Assets/sound/TitleBgm.mp3",true);
 	m_pSe = LoadSound("Assets/sound/Decision.mp3",false);
+	m_pCollisionSe = LoadSound("Assets/sound/Get.mp3", false);
 	m_pspeaker = PlaySound(m_pBgm);
 	m_pspeaker->SetVolume(0.5f);
 	// スコア初期化
@@ -73,6 +77,9 @@ SceneTitle::~SceneTitle()
 		m_pTitlePlayer = nullptr;
 	}
 	m_pspeaker->Stop(0);
+	m_pBgm = nullptr;
+	m_pSe = nullptr;
+	m_pCollisionSe = nullptr;
 	for(auto& obj : m_TitleTrashObjectList) {
 		delete obj;
 	}
@@ -91,6 +98,113 @@ void SceneTitle::Update()
 	for (auto& obj : m_TitleTrashObjectList) {
 		obj->Update();
 	}
+	// 衝突判定と解決
+	for(int i=0;i<m_TitleTrashObjectList.size();i++){
+		for(int j=i+1;j<m_TitleTrashObjectList.size();j++){
+			if (m_TitleTrashObjectList[i]->ResolveCollision(
+				*m_TitleTrashObjectList[i],
+				*m_TitleTrashObjectList[j]))
+			{
+				DirectX::XMFLOAT3 worldPos = m_TitleTrashObjectList[i]->GetPos();
+
+				//// ワールド座標 → 画面座標（原点を画面中央とみなしてずらす）
+
+				//DirectX::XMFLOAT3 Scale = { 1.0f,1.0f,1.0f };
+				//DirectX::XMMATRIX ScaleMatrix =
+				//	DirectX::XMMatrixScaling(Scale.x, Scale.y, Scale.z);
+				//DirectX::XMMATRIX TransMatrix =
+				//	DirectX::XMMatrixTranslation(worldPos.x, worldPos.y, worldPos.z);
+				//DirectX::XMMATRIX WorldMatrix = ScaleMatrix * TransMatrix;
+
+				//DirectX::XMFLOAT4X4 world ,view, proj;
+
+				//XMStoreFloat4x4(&world, DirectX::XMMatrixTranspose(WorldMatrix));
+
+				//DirectX::XMMATRIX mView =
+				//	DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(
+				//		DirectX::XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f),//カメラのポジション
+				//		DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f),	//フォーカスポジション
+				//		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)));
+				//DirectX::XMStoreFloat4x4(&view, mView);
+				//DirectX::XMMATRIX mProj =
+				//	DirectX::XMMatrixTranspose(DirectX::XMMatrixOrthographicOffCenterLH(
+				//		0.0f, (float)SCREEN_WIDTH,
+				//		(float)SCREEN_HEIGHT, 0.0f,
+				//		CMETER(30.0f),
+				//		METER(200.0f)));
+				//DirectX::XMStoreFloat4x4(&proj, mProj);
+
+				//DirectX::XMFLOAT3 screenPos = WorldToScreen(worldPos, view, proj);
+				//
+				//screenPos.z = 0.0f;
+
+				// ★ ここでパーティクルを1回だけ生成 ★
+				auto p = std::make_shared<Particle>(worldPos);
+				p->SetCamera(static_cast<CameraTitle*>(m_pTitleCamera));
+				m_pParticle.push_back(p);
+				// 衝突音再生
+				m_pspeaker3 = PlaySound(m_pCollisionSe);
+
+			}
+		}
+		if (m_TitleTrashObjectList[i]->ResolveCollision(*m_TitleTrashObjectList[i], *m_pTitlePlayer))
+		{
+			DirectX::XMFLOAT3 worldPos = m_TitleTrashObjectList[i]->GetPos();
+
+			//// ワールド座標 → 画面座標（原点を画面中央とみなしてずらす）
+
+			//DirectX::XMFLOAT3 Scale = { 1.0f,1.0f,1.0f };
+			//DirectX::XMMATRIX ScaleMatrix =
+			//	DirectX::XMMatrixScaling(Scale.x, Scale.y, Scale.z);
+			//DirectX::XMMATRIX TransMatrix =
+			//	DirectX::XMMatrixTranslation(worldPos.x, worldPos.y, worldPos.z);
+			//DirectX::XMMATRIX WorldMatrix = ScaleMatrix * TransMatrix;
+
+			//DirectX::XMFLOAT4X4 world ,view, proj;
+
+			//XMStoreFloat4x4(&world, DirectX::XMMatrixTranspose(WorldMatrix));
+
+			//DirectX::XMMATRIX mView =
+			//	DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(
+			//		DirectX::XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f),//カメラのポジション
+			//		DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f),	//フォーカスポジション
+			//		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)));
+			//DirectX::XMStoreFloat4x4(&view, mView);
+			//DirectX::XMMATRIX mProj =
+			//	DirectX::XMMatrixTranspose(DirectX::XMMatrixOrthographicOffCenterLH(
+			//		0.0f, (float)SCREEN_WIDTH,
+			//		(float)SCREEN_HEIGHT, 0.0f,
+			//		CMETER(30.0f),
+			//		METER(200.0f)));
+			//DirectX::XMStoreFloat4x4(&proj, mProj);
+
+			//DirectX::XMFLOAT3 screenPos = WorldToScreen(worldPos, view, proj);
+			//
+			//screenPos.z = 0.0f;
+
+			// ★ ここでパーティクルを1回だけ生成 ★
+			auto p = std::make_shared<Particle>(worldPos);
+			p->SetCamera(static_cast<CameraTitle*>(m_pTitleCamera));
+			m_pParticle.push_back(p);
+			// 衝突音再生
+			m_pspeaker3 = PlaySound(m_pCollisionSe);
+		}
+	}
+
+	//プレイヤーとの衝突
+
+	//パーティクル削除
+	for (auto it = m_pParticle.begin(); it != m_pParticle.end(); ) {
+		if (!(*it)->IsAlive()) {
+			it = m_pParticle.erase(it);
+		} else {
+			++it;
+		}
+	}
+
+
+
+
 	m_pTitlePlayer->Update();
 }
 
@@ -107,18 +221,24 @@ void SceneTitle::Draw()
 	DirectX::XMMATRIX S;
 		S = DirectX::XMMatrixScaling(1.0f, -1.0f, 1.0f);
 	DirectX::XMMATRIX mWorld = S * T;
-	//DirectX::XMStoreFloat4x4(&world, DirectX::XMMatrixTranspose(mWorld));
 
 	//Sprite::SetWorld(world);       // スプライトのワールド行列を設定 
 	//Sprite::SetUVPos({0.0f,0.0f});
 	//Sprite::SetUVScale({ 1.0f,1.0f });
-	//// フェードの表示設定 
 	//Sprite::SetVP();
 	//Sprite::SetTexture(m_pTitle);
 	//Sprite::SetSize({ SCREEN_WIDTH,SCREEN_HEIGHT});
 	//Sprite::SetOffset({ 0.0f, 0.0f });
 	//Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-	//Sprite::Draw();	
+	//Sprite::Draw();
+	RenderTarget* pRTV = GetDefaultRTV(); // RenderTargetView 
+	SetRenderTargets(1, &pRTV, nullptr);  // 3 null 2D表示になる
+
+	for (auto& particle : m_pParticle) {
+		particle->Update();
+		particle->Draw();
+	}
+
 	T =
 		DirectX::XMMatrixTranslation(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0.0f);
 
@@ -127,7 +247,6 @@ void SceneTitle::Draw()
 	DirectX::XMStoreFloat4x4(&world, DirectX::XMMatrixTranspose(mWorld));
 
 	Sprite::SetWorld(world);       // スプライトのワールド行列を設定 
-	// フェードの表示設定 
 	Sprite::SetVP();
 	Sprite::SetTexture(m_pLogo);
 	Sprite::SetSize({1280.0f,320.0f});
@@ -142,7 +261,6 @@ void SceneTitle::Draw()
 	DirectX::XMStoreFloat4x4(&world, DirectX::XMMatrixTranspose(mWorld));
 
 	Sprite::SetWorld(world);       // スプライトのワールド行列を設定 
-	// フェードの表示設定 
 	Sprite::SetVP();
 	Sprite::SetTexture(m_pEnter);
 	Sprite::SetSize({1080.0f,140.0f});
