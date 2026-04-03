@@ -7,10 +7,11 @@
 #include"Goal.h"
 #include"ModelCache.h"
 #include"Model.h"
-#include"CameraDebug.h"
+#include"CameraPlayer.h"
 #include"SkyDome.h"
 #define STAGE_OBJECT_NUMBER (40)
 #define GOAL_INIT_POSITION DirectX::XMFLOAT3(0.0f, 5.0f, 0.0f)
+#define MAX_ITEM_NUM (5)
 StageObjectManager::StageObjectManager():
 	m_pPlayer(nullptr),
 	m_pGoal(nullptr)
@@ -100,7 +101,7 @@ void StageObjectManager::Update()
 
 		if (Collision::Hit((*itr)->GetCollision(), m_pPlayer->GetCollision()).isHit) {
 			// プレイヤーとオブジェクトが当たった場合
-			if (m_pPlayer->GetItemNum() < 5) {
+			if (m_pPlayer->GetItemNum() < MAX_ITEM_NUM) {
 				if (!(*itr)->GetDeletePrepareFlag())
 				{
 					m_pPlayer->SetItemNum(m_pPlayer->GetItemNum() + 1);
@@ -137,17 +138,11 @@ void StageObjectManager::Draw()
 		if (!itr)continue;//オブジェクトがあるかどうかチェック
 		itr->Draw();
 	}
-	//for (auto& itr : m_WallObjects)
-	//{
-	//	if (!itr)continue;//オブジェクトがあるかどうかチェック
-	//	itr->Draw();
-	//}
-	
 	m_pSkyDome->Draw();
 	m_pGoal->Draw();
 }
-
-void StageObjectManager::SetCamera(CameraDebug* InCamera)
+//カメラの設定
+void StageObjectManager::SetCamera(CameraPlayer* InCamera)
 {
 	m_pCamera = InCamera;
 	m_pGoal->SetCamera(InCamera);

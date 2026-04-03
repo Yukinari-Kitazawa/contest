@@ -238,7 +238,7 @@ void Player::DrawMiniMapModel()
 }
 void Player::UpdateMove()
 {
-    
+	//移動処理
     if (IsKeyPress('A'))
     {
         m_Rotation.z += -ROTATION_SPEED_BASE;
@@ -330,7 +330,7 @@ void Player::UpdateMove()
     posVec = DirectX::XMVectorAdd(posVec, moveVec);
     DirectX::XMStoreFloat3(&m_pos, posVec);
 }
-
+//UIの描画
 void Player::DrawUI()
 {
     RenderTarget* pRTV = GetDefaultRTV();// ディスプレイ情報の取得
@@ -381,15 +381,16 @@ void Player::DrawUI()
     Sprite::Draw();
 }
 
+//ダッシュエフェクトの描画
 void Player::DrawEffect()
 {
     RenderTarget* pRTV = GetDefaultRTV();// ディスプレイ情報の取得
-    DepthStencil* pDSV = GetDefaultDSV(); // 深度バッファの取得
     // 2D表示の設定 
     SetRenderTargets(1, &pRTV, nullptr);
     // スプライトの表示に必要な行列を計算 
     static int cnt = 0;
     static int FrameCnt = 0;
+	//フレームカウントが5を超えたら次の画像に切り替える
     if (FrameCnt > 4)
     {
         cnt++;
@@ -424,11 +425,12 @@ void Player::DrawEffect()
     Sprite::SetUVScale({ 1.0f / PLAYER_EFFECT_SPRITE_SPRIT_X,1.0f / PLAYER_EFFECT_SPRITE_SPRIT_Y });
 
     Sprite::SetTexture(m_pEffectTexture);
+	//エフェクトの色を半透明の灰色にする
     Sprite::SetColor({ 0.5f, 0.5f , 0.5f, 0.1f });
     Sprite::Draw();
 
 }
-
+//壁との当たり判定
 void Player::OnCollisionWall()
 {
 

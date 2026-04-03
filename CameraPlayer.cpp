@@ -1,17 +1,17 @@
-#include "CameraDebug.h"
+#include "CameraPlayer.h"
 using namespace DirectX;
-CameraDebug::CameraDebug() : m_radXZ(0.0f), m_radY(15.0f), m_radius(4.0f)
+CameraPlayer::CameraPlayer() : m_radXZ(0.0f), m_radY(15.0f), m_radius(4.0f)
 {
 }
 
-CameraDebug::~CameraDebug()
+CameraPlayer::~CameraPlayer()
 {
 }
 
-void CameraDebug::Update()
+void CameraPlayer::Update()
 {
 
-//  プレイヤー位置
+	//  プレイヤー位置
 	m_look = m_pPlayer->GetPos();
 	XMFLOAT3 playerPos = m_pPlayer->GetPos();
 	XMVECTOR vPlayerPos = XMLoadFloat3(&playerPos);
@@ -39,12 +39,8 @@ void CameraDebug::Update()
 
 
 	if (m_radius < 0.1f) m_radius = 0.1f;//0はエラー
-	//m_pos.x = cos(DirectX::XMConvertToRadians(m_radY)) * sin(DirectX::XMConvertToRadians(m_radXZ)) * m_radius + m_look.x;
-	//m_pos.y = sin(DirectX::XMConvertToRadians(m_radY)) * m_radius + m_look.y;
-	//m_pos.z = cos(DirectX::XMConvertToRadians(m_radY)) * cos(DirectX::XMConvertToRadians(m_radXZ)) * m_radius + m_look.z;
-
 }
-DirectX::XMFLOAT4X4 CameraDebug::GetViewMatrix(bool transpose)
+DirectX::XMFLOAT4X4 CameraPlayer::GetViewMatrix(bool transpose)
 {
 	DirectX::XMFLOAT4X4 mat;
 
@@ -61,9 +57,9 @@ DirectX::XMFLOAT4X4 CameraDebug::GetViewMatrix(bool transpose)
 	XMVECTOR vEye = XMLoadFloat3(&m_pos);
 	XMVECTOR vTarget = XMLoadFloat3(&m_look);
 
-	//向き（forward）と up を回転行列から直接取り出す
+	//プレイヤーの向き（forward）と up を回転行列から直接取り出す
 	XMVECTOR forward = XMVector3Normalize(XMVectorSubtract(vTarget, vEye));
-	XMVECTOR up = rot.r[1]; // クォータニオン由来のY軸
+	XMVECTOR up = rot.r[1]; // Y軸
 	
 	XMMATRIX view = XMMatrixLookToLH(vEye, forward, up);
 

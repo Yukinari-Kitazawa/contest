@@ -24,7 +24,7 @@ DirectX::XMFLOAT4X4 Camera::GetViewMatrix(bool transpose)
 		XMVECTOR forward = XMVector3Normalize(XMVectorSubtract(target, eye));
 
 
-		// 安全な仮up（forwardと平行にならなさそうな軸を選ぶ！）
+		// 安全なup（forwardと平行にならなさそうな軸を選ぶ）
 		XMVECTOR baseUp = fabs(XMVectorGetY(forward)) > 0.99f
 			? XMVectorSet(0, 0, 1, 0) // Y軸に近すぎたらZ軸使う
 			: XMVectorSet(0, 1, 0, 0); // 通常はY軸
@@ -35,7 +35,7 @@ DirectX::XMFLOAT4X4 Camera::GetViewMatrix(bool transpose)
 		// new up = forwardとrightの外積（直交）
 		XMVECTOR newUp = XMVector3Cross(forward, right);
 
-		// 最終ビュー行列をこれで作る！！
+		// 最終ビュー行列を作る
 		XMMATRIX view = XMMatrixLookAtLH(eye, target, newUp);
 
 		if (transpose) {

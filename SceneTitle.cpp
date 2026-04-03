@@ -138,7 +138,7 @@ void SceneTitle::Update()
 				//
 				//screenPos.z = 0.0f;
 
-				// ★ ここでパーティクルを1回だけ生成 ★
+				
 				auto p = std::make_shared<Particle>(worldPos);
 				p->SetCamera(static_cast<CameraTitle*>(m_pTitleCamera));
 				m_pParticle.push_back(p);

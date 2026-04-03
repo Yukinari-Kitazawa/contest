@@ -3,11 +3,11 @@
 #include "Input.h" 
 #include"Player.h"
 
-class CameraDebug:public Camera
+class CameraPlayer:public Camera
 {
 public:
-	CameraDebug();
-	~CameraDebug();
+	CameraPlayer();
+	~CameraPlayer();
 	void Update()final;
 	void SetPlayer(Player* Inplayer) { m_pPlayer = Inplayer; }
 	DirectX::XMFLOAT4X4 GetViewMatrix(bool transpose =true)override;

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include"CameraDebug.h"
+#include"CameraPlayer.h"
 class Model;
 class SkyDome : public GameObject
 {

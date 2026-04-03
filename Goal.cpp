@@ -5,6 +5,12 @@
 #include"ShaderList.h"
 #include"ModelCache.h"
 #define GOAL_SCALE (1.5f)
+#define GOAL_SCALE_OFFSET (0.1f)
+#define GOAL_SCALE_RANGE_RIGHT_FIRST (20.0f)
+#define GOAL_SCALE_RANGE_LEFT_FIRST (30.0f)
+#define GOAL_SCALE_RANGE_RIGHT_SECOND (30.0f)
+#define GOAL_SCALE_RANGE_LEFT_SECOND (40.0f)
+#define GOAL_SCALE_RANGE_RIGHT_LAST (40.0f)
 Goal::Goal()
 {
 }
@@ -13,7 +19,7 @@ Goal::Goal(DirectX::XMFLOAT3 InitPos):m_pPlayer(nullptr),m_pModel(nullptr),m_pCa
 {
 	m_pModel=ModelCache::GetInstance()->GetCache("Cloud");
 	m_pos = InitPos;
-	Scale = { GOAL_SCALE-0.2f,GOAL_SCALE-0.2f,GOAL_SCALE-0.2f };
+	Scale = { GOAL_SCALE - GOAL_SCALE_OFFSET * 2,GOAL_SCALE - GOAL_SCALE_OFFSET * 2,GOAL_SCALE - GOAL_SCALE_OFFSET * 2 };//初期化のサイズを小さめ（1.3）に設定
 	m_box = { InitPos,Scale };
 	m_pSetSe = LoadSound("Assets/sound/Set.mp3");
 }
@@ -25,32 +31,39 @@ Goal::~Goal()
 
 void Goal::Update()
 {
+	//プレイヤーと当たり判定を行う
     if (Collision::Hit(m_box, m_pPlayer->GetCollision()).isHit)
     {
+		//プレイヤーがアイテムを持っている場合、ゴールにアイテムの数を加算する
         if (m_pPlayer->GetItemNum() > 0)
         {
 			m_pspeaker = PlaySound(m_pSetSe);
 			m_pspeaker->SetVolume(1.0f);
+
+			//プレイヤーのアイテムの数をゴールに加算し、プレイヤーのアイテムの数を0にする
 			ObjectNum += m_pPlayer->GetItemNum();
             m_pPlayer->SetItemNum(m_pPlayer->GetItemNum() - m_pPlayer->GetItemNum());
         }
     }
-	m_box = { m_pos,Scale };
-	if (30>ObjectNum&&ObjectNum > 20)
+
+	//アイテムの数に応じて当たり判定のサイズを0.1ずつ変化させる
+	if ((GOAL_SCALE_RANGE_LEFT_FIRST>ObjectNum)&&(ObjectNum > GOAL_SCALE_RANGE_RIGHT_FIRST))
 	{
-		Scale = { GOAL_SCALE-0.1f,GOAL_SCALE-0.1f,GOAL_SCALE-0.1f };
-		m_box = { m_pos,Scale };
+		Scale = { GOAL_SCALE- GOAL_SCALE_OFFSET,GOAL_SCALE- GOAL_SCALE_OFFSET,GOAL_SCALE- GOAL_SCALE_OFFSET };
+		
 	}
-	else if (40 > ObjectNum && ObjectNum > 30)
+	else if ((GOAL_SCALE_RANGE_LEFT_SECOND > ObjectNum) && (ObjectNum > GOAL_SCALE_RANGE_RIGHT_SECOND))
 	{
 		Scale = { GOAL_SCALE,GOAL_SCALE,GOAL_SCALE };
-		m_box = { m_pos,Scale };
+
 	}
-	else if (ObjectNum > 40)
+	else if (ObjectNum > GOAL_SCALE_RANGE_RIGHT_LAST)
 	{
-		Scale = { GOAL_SCALE+0.1f,GOAL_SCALE+0.1f,GOAL_SCALE+0.1f };
-		m_box = { m_pos,Scale };
+		Scale = { GOAL_SCALE+ GOAL_SCALE_OFFSET,GOAL_SCALE+ GOAL_SCALE_OFFSET,GOAL_SCALE+ GOAL_SCALE_OFFSET };
+
 	}
+	//当たり判定のサイズをアイテムの数に応じて変化させる
+	m_box = { m_pos,Scale };
 	
 }
 

@@ -1,9 +1,10 @@
 #include "Minimap.h"
-/// @brief コンストラクタ
-Minimap::Minimap() : m_pRenderTarget(nullptr) {
+#define MINIMAP_SIZE (512)
+Minimap::Minimap() : m_pRenderTarget(nullptr) 
+{
     //作成する書き込み先の大きさ
-    float width = 512;
-    float height = 512;
+    float width = MINIMAP_SIZE;
+    float height = MINIMAP_SIZE;
 
     // レンダーターゲットを作成
     m_pRenderTarget = new RenderTarget();
@@ -13,8 +14,8 @@ Minimap::Minimap() : m_pRenderTarget(nullptr) {
     m_pDepthStencil = new DepthStencil();
     m_pDepthStencil->Create(width, height, false);
 }
-/// @brief デストラクタ
-Minimap::~Minimap() {
+Minimap::~Minimap() 
+{
     if (m_pDepthStencil) {
         delete m_pDepthStencil;
         m_pDepthStencil = nullptr;
@@ -24,8 +25,9 @@ Minimap::~Minimap() {
         m_pRenderTarget = nullptr;
     }
 }
-/// @brief ミニマップを描画
-void Minimap::Draw() {
+///ミニマップを描画
+void Minimap::Draw() 
+{
     DirectX::XMFLOAT4X4 world, view, proj;
 
     DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(490.0f, 210.0f, 0.0f);
@@ -67,8 +69,10 @@ void Minimap::Draw() {
     Sprite::SetTexture(m_pRenderTarget);
     Sprite::Draw();
 }
-/// @brief ミニマップの作成開始
-void Minimap::BeginRender() {
+
+///ミニマップの作成開始
+void Minimap::BeginRender() 
+{
     // レンダーターゲットと深度ステンシルをクリア
     m_pRenderTarget->Clear();
     m_pDepthStencil->Clear();
@@ -76,11 +80,12 @@ void Minimap::BeginRender() {
     // ミニマップのレンダーターゲットを設定
     SetRenderTargets(1, &m_pRenderTarget, m_pDepthStencil);
 }
-/// @brief ミニマップの作成終了
-void Minimap::EndRender() {
+///ミニマップの作成終了
+void Minimap::EndRender() 
+{
         // デフォルトのレンダーターゲットに戻す
         RenderTarget* pDefRTV = GetDefaultRTV();
         DepthStencil* pDefDSV = GetDefaultDSV();
         SetRenderTargets(1, &pDefRTV, pDefDSV);
-    }
+}
 

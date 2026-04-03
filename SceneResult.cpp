@@ -28,7 +28,7 @@ SceneResult::~SceneResult()
 
 void SceneResult::Update()
 {
-	if (IsKeyTrigger(VK_RETURN))
+	if (IsKeyTrigger(VK_SPACE))
 	{
 		m_pSEspeaker = PlaySound(m_pSe);
 		m_pSEspeaker->SetVolume(1.0f);

@@ -1,6 +1,6 @@
 #pragma once
 #include<vector>
-#include"CameraDebug.h"
+#include"CameraPlayer.h"
 #include"Sound.h"
 class Player;
 class TrashObject;
@@ -18,13 +18,13 @@ public:
 	void SetPlayer(Player* Inplayer) { m_pPlayer = Inplayer; }
 	std::vector <Wall*> GetWall(){ return m_WallObjects; }
 	int GetStageObjectCnt() { return m_StageObjects.size(); }
-	void SetCamera(CameraDebug* InCamera);
+	void SetCamera(CameraPlayer* InCamera);
 private:
 	std::vector<TrashObject*> m_StageObjects;
 	std::vector <Wall*> m_WallObjects;
 	Player* m_pPlayer;
 	Goal* m_pGoal;
-	CameraDebug* m_pCamera;
+	CameraPlayer* m_pCamera;
 	SkyDome* m_pSkyDome;
 	IXAudio2SourceVoice* m_pSEspeaker;
 	XAUDIO2_BUFFER* m_pGetSe;

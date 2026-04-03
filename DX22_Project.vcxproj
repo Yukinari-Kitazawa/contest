@@ -151,7 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraDebug.cpp" />
+    <ClCompile Include="CameraPlayer.cpp" />
     <ClCompile Include="CameraMinimap.cpp" />
     <ClCompile Include="CameraResult.cpp" />
     <ClCompile Include="CameraTitle.cpp" />
@@ -201,7 +201,7 @@
     <ClInclude Include="..\include\EffekseerRendererDX11.h" />
     <ClInclude Include="..\include\EffekseerSoundXAudio2.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraDebug.h" />
+    <ClInclude Include="CameraPlayer.h" />
     <ClInclude Include="CameraMinimap.h" />
     <ClInclude Include="CameraResult.h" />
     <ClInclude Include="CameraTitle.h" />

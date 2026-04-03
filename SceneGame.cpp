@@ -9,19 +9,23 @@
 #include"GaugeUI.h"
 #include"timer.h"
 #include"Score.h"
-#include"CameraDebug.h"
+#include"CameraPlayer.h"
 #include"Minimap.h"
 #include"CameraMinimap.h"
+
 #define PAI (3.141592f)
 #define ANGLE(a) PAI/180.0f*a
 #define TIMER_SPRITE_SPRIT_X (5.0f)
 #define TIMER_SPRITE_SPRIT_Y (2.0f)
+
 enum CameraKind {
 	CAM_PLAYER,
 	CAM_MINIMAP
 };
+
 EffectM* g_pEffekseerM;
 Timer* g_pTimer;
+
 SceneGame::SceneGame() :
 	m_pDebugCamera(nullptr),
 	m_pModel(nullptr),
@@ -44,7 +48,7 @@ SceneGame::SceneGame() :
 
 
 	//ƒJƒƒ‰‚Ìì¬
-	m_pDebugCamera = new CameraDebug();
+	m_pDebugCamera = new CameraPlayer();
 	pCamMinimap = new CameraMinimap();
 	m_pStageObjectManager->SetPlayer(m_pPlayer);
 	m_pStageObjectManager->SetCamera(m_pDebugCamera);

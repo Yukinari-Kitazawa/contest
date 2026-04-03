@@ -1,13 +1,13 @@
 #include "CameraMinimap.h"
-/// @brief コンストラクタ
+
 CameraMinimap::CameraMinimap() : m_pPlayer(nullptr) {
     m_aspect = 1.0f;
 }
-/// @brief  デストラクタ
+
 CameraMinimap::~CameraMinimap()
 {
 }
-/// @brief 更新処理
+
 void CameraMinimap::Update() {
     //プレイヤーが設定されているか確認
     if (!m_pPlayer) { return; }
